@@ -4,6 +4,7 @@ import Product from "../../../db/models/Product";
 export default async function handler(request, response) {
   await dbConnect();
   const { id } = request.query;
+console.log(request.query);
 
   if (request.method === "GET") {
     const product = await Product.findById(id).populate("reviews");
@@ -16,7 +17,7 @@ export default async function handler(request, response) {
   }
 
   if (request.method === "PUT") {
-    Product.findByIdAndUpdate(id, { $set: request.body, });
+    await Product.findByIdAndUpdate(id, { $set: request.body, });
     response.status(200).json({ status: "Product successfully updated."});
   }
 
@@ -25,3 +26,6 @@ export default async function handler(request, response) {
     return response.status(200).json({ status: "Product successfully deleted." });
   }
 }
+
+// zeile 20
+/* { $set: request.body, } */

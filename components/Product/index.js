@@ -12,13 +12,14 @@ export default function Product() {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data, isLoading, mutate } = useSWR("/api/products/${id}");
+  const { data, isLoading, mutate } = useSWR(`/api/products/${id}`);
 
   async function handleEditProduct(event) {
+    event.preventDefault();
     const formData = new FormData(event.target);
     const productData = Object.fromEntries(formData);
 
-    const response = await fetch("/api/products", {
+    const response = await fetch(`/api/products/${id}`, {
       method: "PUT",
       headers: { 
         "Content-Type": "application/json",
@@ -37,7 +38,7 @@ export default function Product() {
     });
 
     if (!response.ok) {
-      return <h1>Something gone wrong</h1>;
+      return <h1>Something went wrong</h1>;
     }
     router.push("/");
   }
@@ -63,7 +64,7 @@ export default function Product() {
           🖊️ 
           </span>
         </button>
-        <button type="button" onClick={handleDeleteProduct(id)} disabled={isEditMode}>
+        <button type="button" onClick={() => handleDeleteProduct(id)} disabled={isEditMode}>
           <span role="img" aria-label="A bomb indicating deletion">
           💣
           </span>
@@ -76,8 +77,8 @@ export default function Product() {
       <p>
         Price: {data.price} {data.currency}
       </p>
-      {data.reviews.length > 0 && <Comments reviews={data.reviews} />}
+     {data.reviews.length > 0 && <Comments reviews={data.reviews} />}
       <StyledLink href="/">Back to all</StyledLink>
     </ProductCard>
   );
-}
+} 

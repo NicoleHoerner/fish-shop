@@ -20,7 +20,7 @@ export default function ProductForm({ onSubmit, value, isEditMode }) {
       </StyledLabel>
       <StyledLabel htmlFor="currency">
         Currency:
-        <select id="currency" name="currency">
+        <select id="currency" name="currency" defaultValue={value.currency}>
           <option value="EUR">EUR</option>
           <option value="USD">USD</option>
           <option value="GBP">GBP</option>
